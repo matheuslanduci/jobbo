@@ -1,0 +1,9 @@
+# ide stuff
+.vscode/
+
+# deps related
+node_modules/
+.tanstack/
+
+# env
+.env
