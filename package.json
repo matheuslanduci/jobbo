@@ -22,17 +22,21 @@
     "@effect/sql": "^0.38.2",
     "@effect/sql-drizzle": "^0.37.2",
     "@effect/sql-sqlite-bun": "^0.39.2",
+    "@tailwindcss/postcss": "^4.1.10",
     "@tanstack/react-router": "^1.121.27",
     "@tanstack/react-start": "^1.121.27",
     "better-auth": "^1.2.9",
     "drizzle-orm": "^0.44.2",
     "effect": "^3.16.8",
+    "postcss": "^8.5.6",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
+    "tailwindcss": "^4.1.10",
     "vite": "^6.3.5"
   },
   "trustedDependencies": [
     "@parcel/watcher",
+    "@tailwindcss/oxide",
     "esbuild",
     "msgpackr-extract"
   ]

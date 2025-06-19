@@ -1,5 +1,3 @@
-// src/routes/__root.tsx
-
 import {
   createRootRoute,
   HeadContent,
@@ -7,6 +5,7 @@ import {
   Scripts
 } from '@tanstack/react-router'
 import type { ReactNode } from 'react'
+import css from '../styles.css?url'
 
 export const Route = createRootRoute({
   head: () => ({
@@ -20,6 +19,12 @@ export const Route = createRootRoute({
       },
       {
         title: 'Jobbo'
+      }
+    ],
+    links: [
+      {
+        rel: 'stylesheet',
+        href: css
       }
     ]
   }),
