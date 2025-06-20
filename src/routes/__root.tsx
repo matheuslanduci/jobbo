@@ -1,13 +1,17 @@
+import type { QueryClient } from '@tanstack/react-query'
 import {
-  createRootRoute,
+  createRootRouteWithContext,
   HeadContent,
   Outlet,
   Scripts
 } from '@tanstack/react-router'
 import type { ReactNode } from 'react'
+import { Toaster } from '~/components/ui/sonner'
 import css from '../styles.css?url'
 
-export const Route = createRootRoute({
+export const Route = createRootRouteWithContext<{
+  queryClient: QueryClient
+}>()({
   head: () => ({
     meta: [
       {
@@ -35,6 +39,7 @@ function RootComponent() {
   return (
     <RootDocument>
       <Outlet />
+      <Toaster />
     </RootDocument>
   )
 }
