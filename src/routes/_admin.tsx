@@ -1,15 +1,15 @@
 import { createFileRoute, Navigate, Outlet } from '@tanstack/react-router'
 import { Loader2Icon } from 'lucide-react'
-import { useSession } from '~/client-auth'
+import { useAuth } from '~/components/auth-provider'
 
 export const Route = createFileRoute('/_admin')({
   component: RouteComponent
 })
 
 function RouteComponent() {
-  const { isPending, data, error } = useSession()
+  const { isFetching, isAuthenticated, user } = useAuth()
 
-  if (isPending) {
+  if (isFetching) {
     return (
       <div className="w-screen h-screen flex items-center justify-center">
         <Loader2Icon className="animate-spin size-4" />
@@ -17,7 +17,7 @@ function RouteComponent() {
     )
   }
 
-  if (error || data?.user.role !== 'admin') {
+  if (!isAuthenticated || user.role !== 'admin') {
     return <Navigate to="/admin/login" replace />
   }
 

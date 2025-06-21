@@ -2,7 +2,7 @@ import * as SqliteDrizzle from '@effect/sql-drizzle/Sqlite'
 import { SqliteClient } from '@effect/sql-sqlite-bun'
 import { drizzle } from 'drizzle-orm/bun-sqlite'
 import { Layer } from 'effect'
-import { serverEnv } from '~/server-env'
+import { serverEnv } from '~/lib/server-env'
 
 const SqlLive = SqliteClient.layer({
   filename: serverEnv.DATABASE_PATH

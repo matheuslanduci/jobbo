@@ -7,7 +7,7 @@
     "format": "biome format",
     "lint": "biome lint",
     "check": "biome check",
-    "dev": "vite dev",
+    "dev": "bun --bun vite dev",
     "build": "vite build"
   },
   "devDependencies": {
@@ -39,6 +39,7 @@
     "drizzle-orm": "^0.44.2",
     "effect": "^3.16.8",
     "input-otp": "^1.4.2",
+    "jotai": "^2.12.5",
     "lucide-react": "^0.518.0",
     "postcss": "^8.5.6",
     "react": "^19.1.0",

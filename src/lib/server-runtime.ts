@@ -1,5 +1,5 @@
 import { Layer, ManagedRuntime } from 'effect'
-import { DatabaseLive } from './database/database'
+import { DatabaseLive } from '~/database/database'
 
 const MainLayer = Layer.mergeAll(DatabaseLive)
 

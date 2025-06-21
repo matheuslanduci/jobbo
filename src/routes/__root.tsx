@@ -6,6 +6,7 @@ import {
   Scripts
 } from '@tanstack/react-router'
 import type { ReactNode } from 'react'
+import { AuthProvider } from '~/components/auth-provider'
 import { Toaster } from '~/components/ui/sonner'
 import css from '../styles.css?url'
 
@@ -38,15 +39,17 @@ export const Route = createRootRouteWithContext<{
 function RootComponent() {
   return (
     <RootDocument>
-      <Outlet />
-      <Toaster />
+      <AuthProvider>
+        <Outlet />
+        <Toaster />
+      </AuthProvider>
     </RootDocument>
   )
 }
 
 function RootDocument({ children }: Readonly<{ children: ReactNode }>) {
   return (
-    <html lang="en">
+    <html className="dark" lang="en">
       <head>
         <HeadContent />
       </head>
