@@ -17,7 +17,7 @@ function RouteComponent() {
     )
   }
 
-  if (!isAuthenticated || user.role !== 'admin') {
+  if (!isAuthenticated || !user?.role?.includes('admin')) {
     return <Navigate to="/admin/login" replace />
   }
 

@@ -29,7 +29,7 @@ const loginSchema = Schema.Struct({
 })
 
 function RouteComponent() {
-  const { isFetching, isAuthenticated } = useAuth()
+  const { isFetching, user, isAuthenticated } = useAuth()
   const navigate = Route.useNavigate()
   const { queryClient } = Route.useRouteContext()
   const form = useForm({
@@ -77,7 +77,11 @@ function RouteComponent() {
   }
 
   if (isAuthenticated) {
-    return <Navigate to="/admin" replace />
+    if (user.role?.includes('admin')) {
+      return <Navigate to="/admin" replace />
+    }
+
+    return <Navigate to="/" replace />
   }
 
   return (

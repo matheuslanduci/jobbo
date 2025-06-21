@@ -4,7 +4,7 @@
 
 import { integer, sqliteTable, text } from 'drizzle-orm/sqlite-core'
 
-export const verification = sqliteTable('verification', {
+export const verificationTable = sqliteTable('verification', {
   id: text('id').primaryKey(),
   identifier: text('identifier').notNull(),
   value: text('value').notNull(),

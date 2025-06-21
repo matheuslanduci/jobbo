@@ -2,9 +2,10 @@
  * This table is managed by Better-Auth.
  */
 
+import { createInsertSchema } from '@handfish/drizzle-effect'
 import { integer, sqliteTable, text } from 'drizzle-orm/sqlite-core'
 
-export const user = sqliteTable('user', {
+export const userTable = sqliteTable('user', {
   id: text('id').primaryKey(),
   name: text('name').notNull(),
   email: text('email').notNull().unique(),
@@ -24,3 +25,8 @@ export const user = sqliteTable('user', {
   banExpires: integer('ban_expires', { mode: 'timestamp' }),
   isAnonymous: integer('is_anonymous', { mode: 'boolean' })
 })
+
+export const newUserSchema = createInsertSchema(userTable)
+
+export type User = typeof userTable.$inferSelect
+export type NewUser = typeof userTable.$inferInsert

@@ -11,3 +11,9 @@ node_modules/
 # databases
 *.db
 *.sqlite
+*.db-shm
+*.db-wal
+
+# build
+.nitro
+.output

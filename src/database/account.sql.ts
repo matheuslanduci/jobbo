@@ -3,15 +3,15 @@
  */
 
 import { integer, sqliteTable, text } from 'drizzle-orm/sqlite-core'
-import { user } from './user.sql'
+import { userTable } from './user.sql'
 
-export const account = sqliteTable('account', {
+export const accountTable = sqliteTable('account', {
   id: text('id').primaryKey(),
   accountId: text('account_id').notNull(),
   providerId: text('provider_id').notNull(),
   userId: text('user_id')
     .notNull()
-    .references(() => user.id, { onDelete: 'cascade' }),
+    .references(() => userTable.id, { onDelete: 'cascade' }),
   accessToken: text('access_token'),
   refreshToken: text('refresh_token'),
   idToken: text('id_token'),

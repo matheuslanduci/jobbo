@@ -3,9 +3,9 @@
  */
 
 import { integer, sqliteTable, text } from 'drizzle-orm/sqlite-core'
-import { user } from './user.sql'
+import { userTable } from './user.sql'
 
-export const session = sqliteTable('session', {
+export const sessionTable = sqliteTable('session', {
   id: text('id').primaryKey(),
   expiresAt: integer('expires_at', { mode: 'timestamp' }).notNull(),
   token: text('token').notNull().unique(),
@@ -15,6 +15,6 @@ export const session = sqliteTable('session', {
   userAgent: text('user_agent'),
   userId: text('user_id')
     .notNull()
-    .references(() => user.id, { onDelete: 'cascade' }),
+    .references(() => userTable.id, { onDelete: 'cascade' }),
   impersonatedBy: text('impersonated_by')
 })

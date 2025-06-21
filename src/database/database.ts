@@ -4,10 +4,11 @@ import { drizzle } from 'drizzle-orm/bun-sqlite'
 import { Layer } from 'effect'
 import { serverEnv } from '~/lib/server-env'
 
-const SqlLive = SqliteClient.layer({
+export const SqlLive = SqliteClient.layer({
   filename: serverEnv.DATABASE_PATH
 })
-const DrizzleLive = SqliteDrizzle.layer.pipe(Layer.provide(SqlLive))
+
+export const DrizzleLive = SqliteDrizzle.layer.pipe(Layer.provide(SqlLive))
 
 export const DatabaseLive = Layer.mergeAll(SqlLive, DrizzleLive)
 

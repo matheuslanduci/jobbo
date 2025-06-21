@@ -3,9 +3,9 @@
  */
 
 import { integer, sqliteTable, text } from 'drizzle-orm/sqlite-core'
-import { user } from './user.sql'
+import { userTable } from './user.sql'
 
-export const apikey = sqliteTable('apikey', {
+export const apiKeyTable = sqliteTable('apikey', {
   id: text('id').primaryKey(),
   name: text('name'),
   start: text('start'),
@@ -13,7 +13,7 @@ export const apikey = sqliteTable('apikey', {
   key: text('key').notNull(),
   userId: text('user_id')
     .notNull()
-    .references(() => user.id, { onDelete: 'cascade' }),
+    .references(() => userTable.id, { onDelete: 'cascade' }),
   refillInterval: integer('refill_interval'),
   refillAmount: integer('refill_amount'),
   lastRefillAt: integer('last_refill_at', { mode: 'timestamp' }),
