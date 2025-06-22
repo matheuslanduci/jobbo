@@ -15,6 +15,12 @@ import { Route as AdminRouteImport } from './routes/_admin'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AdminLoginRouteImport } from './routes/admin.login'
 import { Route as AdminAdminIndexRouteImport } from './routes/_admin/admin.index'
+import { Route as AdminAdminSettingsRouteImport } from './routes/_admin/admin.settings'
+import { Route as AdminAdminJobsRouteImport } from './routes/_admin/admin.jobs'
+import { Route as AdminAdminSettingsIndexRouteImport } from './routes/_admin/admin.settings.index'
+import { Route as AdminAdminJobsIndexRouteImport } from './routes/_admin/admin.jobs.index'
+import { Route as AdminAdminSettingsAccountRouteImport } from './routes/_admin/admin.settings.account'
+import { Route as AdminAdminJobsNewRouteImport } from './routes/_admin/admin.jobs.new'
 import { ServerRoute as ApiAuthSplatServerRouteImport } from './routes/api/auth/$'
 
 const rootServerRouteImport = createServerRootRoute()
@@ -38,6 +44,37 @@ const AdminAdminIndexRoute = AdminAdminIndexRouteImport.update({
   path: '/admin/',
   getParentRoute: () => AdminRoute,
 } as any)
+const AdminAdminSettingsRoute = AdminAdminSettingsRouteImport.update({
+  id: '/admin/settings',
+  path: '/admin/settings',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminAdminJobsRoute = AdminAdminJobsRouteImport.update({
+  id: '/admin/jobs',
+  path: '/admin/jobs',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminAdminSettingsIndexRoute = AdminAdminSettingsIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AdminAdminSettingsRoute,
+} as any)
+const AdminAdminJobsIndexRoute = AdminAdminJobsIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AdminAdminJobsRoute,
+} as any)
+const AdminAdminSettingsAccountRoute =
+  AdminAdminSettingsAccountRouteImport.update({
+    id: '/account',
+    path: '/account',
+    getParentRoute: () => AdminAdminSettingsRoute,
+  } as any)
+const AdminAdminJobsNewRoute = AdminAdminJobsNewRouteImport.update({
+  id: '/new',
+  path: '/new',
+  getParentRoute: () => AdminAdminJobsRoute,
+} as any)
 const ApiAuthSplatServerRoute = ApiAuthSplatServerRouteImport.update({
   id: '/api/auth/$',
   path: '/api/auth/$',
@@ -47,26 +84,69 @@ const ApiAuthSplatServerRoute = ApiAuthSplatServerRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/admin/login': typeof AdminLoginRoute
+  '/admin/jobs': typeof AdminAdminJobsRouteWithChildren
+  '/admin/settings': typeof AdminAdminSettingsRouteWithChildren
   '/admin': typeof AdminAdminIndexRoute
+  '/admin/jobs/new': typeof AdminAdminJobsNewRoute
+  '/admin/settings/account': typeof AdminAdminSettingsAccountRoute
+  '/admin/jobs/': typeof AdminAdminJobsIndexRoute
+  '/admin/settings/': typeof AdminAdminSettingsIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/admin/login': typeof AdminLoginRoute
   '/admin': typeof AdminAdminIndexRoute
+  '/admin/jobs/new': typeof AdminAdminJobsNewRoute
+  '/admin/settings/account': typeof AdminAdminSettingsAccountRoute
+  '/admin/jobs': typeof AdminAdminJobsIndexRoute
+  '/admin/settings': typeof AdminAdminSettingsIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/_admin': typeof AdminRouteWithChildren
   '/admin/login': typeof AdminLoginRoute
+  '/_admin/admin/jobs': typeof AdminAdminJobsRouteWithChildren
+  '/_admin/admin/settings': typeof AdminAdminSettingsRouteWithChildren
   '/_admin/admin/': typeof AdminAdminIndexRoute
+  '/_admin/admin/jobs/new': typeof AdminAdminJobsNewRoute
+  '/_admin/admin/settings/account': typeof AdminAdminSettingsAccountRoute
+  '/_admin/admin/jobs/': typeof AdminAdminJobsIndexRoute
+  '/_admin/admin/settings/': typeof AdminAdminSettingsIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/admin/login' | '/admin'
+  fullPaths:
+    | '/'
+    | '/admin/login'
+    | '/admin/jobs'
+    | '/admin/settings'
+    | '/admin'
+    | '/admin/jobs/new'
+    | '/admin/settings/account'
+    | '/admin/jobs/'
+    | '/admin/settings/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/admin/login' | '/admin'
-  id: '__root__' | '/' | '/_admin' | '/admin/login' | '/_admin/admin/'
+  to:
+    | '/'
+    | '/admin/login'
+    | '/admin'
+    | '/admin/jobs/new'
+    | '/admin/settings/account'
+    | '/admin/jobs'
+    | '/admin/settings'
+  id:
+    | '__root__'
+    | '/'
+    | '/_admin'
+    | '/admin/login'
+    | '/_admin/admin/jobs'
+    | '/_admin/admin/settings'
+    | '/_admin/admin/'
+    | '/_admin/admin/jobs/new'
+    | '/_admin/admin/settings/account'
+    | '/_admin/admin/jobs/'
+    | '/_admin/admin/settings/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -126,6 +206,48 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminAdminIndexRouteImport
       parentRoute: typeof AdminRoute
     }
+    '/_admin/admin/settings': {
+      id: '/_admin/admin/settings'
+      path: '/admin/settings'
+      fullPath: '/admin/settings'
+      preLoaderRoute: typeof AdminAdminSettingsRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/_admin/admin/jobs': {
+      id: '/_admin/admin/jobs'
+      path: '/admin/jobs'
+      fullPath: '/admin/jobs'
+      preLoaderRoute: typeof AdminAdminJobsRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/_admin/admin/settings/': {
+      id: '/_admin/admin/settings/'
+      path: '/'
+      fullPath: '/admin/settings/'
+      preLoaderRoute: typeof AdminAdminSettingsIndexRouteImport
+      parentRoute: typeof AdminAdminSettingsRoute
+    }
+    '/_admin/admin/jobs/': {
+      id: '/_admin/admin/jobs/'
+      path: '/'
+      fullPath: '/admin/jobs/'
+      preLoaderRoute: typeof AdminAdminJobsIndexRouteImport
+      parentRoute: typeof AdminAdminJobsRoute
+    }
+    '/_admin/admin/settings/account': {
+      id: '/_admin/admin/settings/account'
+      path: '/account'
+      fullPath: '/admin/settings/account'
+      preLoaderRoute: typeof AdminAdminSettingsAccountRouteImport
+      parentRoute: typeof AdminAdminSettingsRoute
+    }
+    '/_admin/admin/jobs/new': {
+      id: '/_admin/admin/jobs/new'
+      path: '/new'
+      fullPath: '/admin/jobs/new'
+      preLoaderRoute: typeof AdminAdminJobsNewRouteImport
+      parentRoute: typeof AdminAdminJobsRoute
+    }
   }
 }
 declare module '@tanstack/react-start/server' {
@@ -140,11 +262,42 @@ declare module '@tanstack/react-start/server' {
   }
 }
 
+interface AdminAdminJobsRouteChildren {
+  AdminAdminJobsNewRoute: typeof AdminAdminJobsNewRoute
+  AdminAdminJobsIndexRoute: typeof AdminAdminJobsIndexRoute
+}
+
+const AdminAdminJobsRouteChildren: AdminAdminJobsRouteChildren = {
+  AdminAdminJobsNewRoute: AdminAdminJobsNewRoute,
+  AdminAdminJobsIndexRoute: AdminAdminJobsIndexRoute,
+}
+
+const AdminAdminJobsRouteWithChildren = AdminAdminJobsRoute._addFileChildren(
+  AdminAdminJobsRouteChildren,
+)
+
+interface AdminAdminSettingsRouteChildren {
+  AdminAdminSettingsAccountRoute: typeof AdminAdminSettingsAccountRoute
+  AdminAdminSettingsIndexRoute: typeof AdminAdminSettingsIndexRoute
+}
+
+const AdminAdminSettingsRouteChildren: AdminAdminSettingsRouteChildren = {
+  AdminAdminSettingsAccountRoute: AdminAdminSettingsAccountRoute,
+  AdminAdminSettingsIndexRoute: AdminAdminSettingsIndexRoute,
+}
+
+const AdminAdminSettingsRouteWithChildren =
+  AdminAdminSettingsRoute._addFileChildren(AdminAdminSettingsRouteChildren)
+
 interface AdminRouteChildren {
+  AdminAdminJobsRoute: typeof AdminAdminJobsRouteWithChildren
+  AdminAdminSettingsRoute: typeof AdminAdminSettingsRouteWithChildren
   AdminAdminIndexRoute: typeof AdminAdminIndexRoute
 }
 
 const AdminRouteChildren: AdminRouteChildren = {
+  AdminAdminJobsRoute: AdminAdminJobsRouteWithChildren,
+  AdminAdminSettingsRoute: AdminAdminSettingsRouteWithChildren,
   AdminAdminIndexRoute: AdminAdminIndexRoute,
 }
 
