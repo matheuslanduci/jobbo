@@ -15,8 +15,10 @@ import { Route as AdminRouteImport } from './routes/_admin'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AdminLoginRouteImport } from './routes/admin.login'
 import { Route as AdminAdminIndexRouteImport } from './routes/_admin/admin.index'
+import { Route as AdminAdminUsersRouteImport } from './routes/_admin/admin.users'
 import { Route as AdminAdminSettingsRouteImport } from './routes/_admin/admin.settings'
 import { Route as AdminAdminJobsRouteImport } from './routes/_admin/admin.jobs'
+import { Route as AdminAdminUsersIndexRouteImport } from './routes/_admin/admin.users.index'
 import { Route as AdminAdminSettingsIndexRouteImport } from './routes/_admin/admin.settings.index'
 import { Route as AdminAdminJobsIndexRouteImport } from './routes/_admin/admin.jobs.index'
 import { Route as AdminAdminSettingsAccountRouteImport } from './routes/_admin/admin.settings.account'
@@ -44,6 +46,11 @@ const AdminAdminIndexRoute = AdminAdminIndexRouteImport.update({
   path: '/admin/',
   getParentRoute: () => AdminRoute,
 } as any)
+const AdminAdminUsersRoute = AdminAdminUsersRouteImport.update({
+  id: '/admin/users',
+  path: '/admin/users',
+  getParentRoute: () => AdminRoute,
+} as any)
 const AdminAdminSettingsRoute = AdminAdminSettingsRouteImport.update({
   id: '/admin/settings',
   path: '/admin/settings',
@@ -53,6 +60,11 @@ const AdminAdminJobsRoute = AdminAdminJobsRouteImport.update({
   id: '/admin/jobs',
   path: '/admin/jobs',
   getParentRoute: () => AdminRoute,
+} as any)
+const AdminAdminUsersIndexRoute = AdminAdminUsersIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AdminAdminUsersRoute,
 } as any)
 const AdminAdminSettingsIndexRoute = AdminAdminSettingsIndexRouteImport.update({
   id: '/',
@@ -86,11 +98,13 @@ export interface FileRoutesByFullPath {
   '/admin/login': typeof AdminLoginRoute
   '/admin/jobs': typeof AdminAdminJobsRouteWithChildren
   '/admin/settings': typeof AdminAdminSettingsRouteWithChildren
+  '/admin/users': typeof AdminAdminUsersRouteWithChildren
   '/admin': typeof AdminAdminIndexRoute
   '/admin/jobs/new': typeof AdminAdminJobsNewRoute
   '/admin/settings/account': typeof AdminAdminSettingsAccountRoute
   '/admin/jobs/': typeof AdminAdminJobsIndexRoute
   '/admin/settings/': typeof AdminAdminSettingsIndexRoute
+  '/admin/users/': typeof AdminAdminUsersIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -100,6 +114,7 @@ export interface FileRoutesByTo {
   '/admin/settings/account': typeof AdminAdminSettingsAccountRoute
   '/admin/jobs': typeof AdminAdminJobsIndexRoute
   '/admin/settings': typeof AdminAdminSettingsIndexRoute
+  '/admin/users': typeof AdminAdminUsersIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -108,11 +123,13 @@ export interface FileRoutesById {
   '/admin/login': typeof AdminLoginRoute
   '/_admin/admin/jobs': typeof AdminAdminJobsRouteWithChildren
   '/_admin/admin/settings': typeof AdminAdminSettingsRouteWithChildren
+  '/_admin/admin/users': typeof AdminAdminUsersRouteWithChildren
   '/_admin/admin/': typeof AdminAdminIndexRoute
   '/_admin/admin/jobs/new': typeof AdminAdminJobsNewRoute
   '/_admin/admin/settings/account': typeof AdminAdminSettingsAccountRoute
   '/_admin/admin/jobs/': typeof AdminAdminJobsIndexRoute
   '/_admin/admin/settings/': typeof AdminAdminSettingsIndexRoute
+  '/_admin/admin/users/': typeof AdminAdminUsersIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -121,11 +138,13 @@ export interface FileRouteTypes {
     | '/admin/login'
     | '/admin/jobs'
     | '/admin/settings'
+    | '/admin/users'
     | '/admin'
     | '/admin/jobs/new'
     | '/admin/settings/account'
     | '/admin/jobs/'
     | '/admin/settings/'
+    | '/admin/users/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -135,6 +154,7 @@ export interface FileRouteTypes {
     | '/admin/settings/account'
     | '/admin/jobs'
     | '/admin/settings'
+    | '/admin/users'
   id:
     | '__root__'
     | '/'
@@ -142,11 +162,13 @@ export interface FileRouteTypes {
     | '/admin/login'
     | '/_admin/admin/jobs'
     | '/_admin/admin/settings'
+    | '/_admin/admin/users'
     | '/_admin/admin/'
     | '/_admin/admin/jobs/new'
     | '/_admin/admin/settings/account'
     | '/_admin/admin/jobs/'
     | '/_admin/admin/settings/'
+    | '/_admin/admin/users/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -206,6 +228,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminAdminIndexRouteImport
       parentRoute: typeof AdminRoute
     }
+    '/_admin/admin/users': {
+      id: '/_admin/admin/users'
+      path: '/admin/users'
+      fullPath: '/admin/users'
+      preLoaderRoute: typeof AdminAdminUsersRouteImport
+      parentRoute: typeof AdminRoute
+    }
     '/_admin/admin/settings': {
       id: '/_admin/admin/settings'
       path: '/admin/settings'
@@ -219,6 +248,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/admin/jobs'
       preLoaderRoute: typeof AdminAdminJobsRouteImport
       parentRoute: typeof AdminRoute
+    }
+    '/_admin/admin/users/': {
+      id: '/_admin/admin/users/'
+      path: '/'
+      fullPath: '/admin/users/'
+      preLoaderRoute: typeof AdminAdminUsersIndexRouteImport
+      parentRoute: typeof AdminAdminUsersRoute
     }
     '/_admin/admin/settings/': {
       id: '/_admin/admin/settings/'
@@ -289,15 +325,29 @@ const AdminAdminSettingsRouteChildren: AdminAdminSettingsRouteChildren = {
 const AdminAdminSettingsRouteWithChildren =
   AdminAdminSettingsRoute._addFileChildren(AdminAdminSettingsRouteChildren)
 
+interface AdminAdminUsersRouteChildren {
+  AdminAdminUsersIndexRoute: typeof AdminAdminUsersIndexRoute
+}
+
+const AdminAdminUsersRouteChildren: AdminAdminUsersRouteChildren = {
+  AdminAdminUsersIndexRoute: AdminAdminUsersIndexRoute,
+}
+
+const AdminAdminUsersRouteWithChildren = AdminAdminUsersRoute._addFileChildren(
+  AdminAdminUsersRouteChildren,
+)
+
 interface AdminRouteChildren {
   AdminAdminJobsRoute: typeof AdminAdminJobsRouteWithChildren
   AdminAdminSettingsRoute: typeof AdminAdminSettingsRouteWithChildren
+  AdminAdminUsersRoute: typeof AdminAdminUsersRouteWithChildren
   AdminAdminIndexRoute: typeof AdminAdminIndexRoute
 }
 
 const AdminRouteChildren: AdminRouteChildren = {
   AdminAdminJobsRoute: AdminAdminJobsRouteWithChildren,
   AdminAdminSettingsRoute: AdminAdminSettingsRouteWithChildren,
+  AdminAdminUsersRoute: AdminAdminUsersRouteWithChildren,
   AdminAdminIndexRoute: AdminAdminIndexRoute,
 }
 

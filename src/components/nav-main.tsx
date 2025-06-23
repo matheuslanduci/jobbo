@@ -53,7 +53,7 @@ export function NavMain() {
                 <Link
                   to={item.to}
                   activeOptions={{
-                    exact: true
+                    exact: item.to === '/admin'
                   }}
                   activeProps={{
                     className: 'bg-accent'

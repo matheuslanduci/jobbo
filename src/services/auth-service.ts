@@ -1,10 +1,6 @@
-import { Data, Effect } from 'effect'
+import { gen, Service, tryPromise } from 'effect/Effect'
+import { BetterAuthError, UnauthenticatedError } from '~/errors/auth-errors'
 import { auth } from '~/lib/server-auth'
-
-export class BetterAuthError extends Data.TaggedError('BetterAuthError')<{
-  cause?: unknown
-  message: string
-}> {}
 
 type CreateUserParams = {
   email: string
@@ -13,10 +9,11 @@ type CreateUserParams = {
   role?: 'user' | 'admin' | ('user' | 'admin')[]
 }
 
-export class AuthService extends Effect.Service<AuthService>()('AuthService', {
-  effect: Effect.gen(function* () {
+export class AuthService extends Service<AuthService>()('AuthService', {
+  accessors: true,
+  effect: gen(function* () {
     const createUser = (user: CreateUserParams) =>
-      Effect.tryPromise({
+      tryPromise({
         try: () =>
           auth.api.createUser({
             body: {
@@ -33,6 +30,25 @@ export class AuthService extends Effect.Service<AuthService>()('AuthService', {
           })
       })
 
-    return { createUser } as const
+    const getSession = (headers: Headers) =>
+      gen(function* () {
+        const result = yield* tryPromise({
+          try: () =>
+            auth.api.getSession({
+              headers
+            }),
+          catch: (error) =>
+            new BetterAuthError({
+              cause: error,
+              message: 'Failed to fetch session'
+            })
+        })
+
+        if (!result) return yield* new UnauthenticatedError()
+
+        return result
+      })
+
+    return { createUser, getSession } as const
   })
 }) {}

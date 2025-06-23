@@ -1,5 +1,6 @@
 import { Args, Command } from '@effect/cli'
-import { Console, Effect } from 'effect'
+import { Console } from 'effect'
+import { catchTags, gen } from 'effect/Effect'
 import { nanoid } from 'nanoid'
 import { AuthService } from '~/services/auth-service'
 
@@ -17,7 +18,7 @@ const createUserCommand = Command.make(
     email
   },
   (payload) =>
-    Effect.gen(function* () {
+    gen(function* () {
       const randomPassword = nanoid()
 
       const authSvc = yield* AuthService
@@ -33,7 +34,7 @@ const createUserCommand = Command.make(
         `User created successfully! The email is: ${payload.email} with the password: ${randomPassword}`
       )
     }).pipe(
-      Effect.catchTags({
+      catchTags({
         BetterAuthError: (error) =>
           Console.error(error.message, {
             cause: error.cause

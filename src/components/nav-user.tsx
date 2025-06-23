@@ -18,7 +18,7 @@ import {
   useSidebar
 } from './ui/sidebar'
 
-function getUserInitials(name: string) {
+export function getUserInitials(name: string) {
   const initials = name
     .split(' ')
     .map((word) => word.charAt(0).toUpperCase())
